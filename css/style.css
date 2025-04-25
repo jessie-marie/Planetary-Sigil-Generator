@@ -1,0 +1,306 @@
+/* === Fonts === */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Poppins:wght@400;500&display=swap');
+
+/* === Base === */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #fffcf8;
+  color: #121212;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container, .app-shell {
+  transition: background-color 0.3s ease;
+}
+
+/* === Typography === */
+h1, h2, h3, h4, .display-4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #13293d;
+}
+
+.section-title, h5, h6 {
+  font-family: 'Cormorant Garamond', serif;
+  color: #004d40;
+  font-size: 1.2rem;
+}
+
+.lead {
+  font-size: 1.1rem;
+  color: #5e548e;
+}
+
+/* === Tabs === */
+.nav-tabs .nav-link {
+  font-size: 1.05rem;
+  color: #13293d;
+  border: none;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-tabs .nav-link.active {
+  border-bottom-color: var(--accent, #c9a227);
+  color: var(--accent, #c9a227);
+}
+
+/* === Cards === */
+.card {
+  background-color: var(--highlight, #fffefb);
+  border: 1px solid #e1dede;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.015);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  color: #13293d;
+}
+
+.card-text small {
+  color: #5e548e;
+}
+
+/* === Buttons === */
+.btn-outline-primary {
+  border-color: var(--accent, #c9a227);
+  color: var(--accent, #c9a227);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--accent, #c9a227);
+  color: #fff;
+}
+
+.btn-outline-secondary {
+  border-color: #004d40;
+  color: #004d40;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #004d40;
+  color: #fffcf8;
+}
+
+.btn-danger {
+  background-color: #5e548e;
+  border: none;
+  color: #ead7c0;
+}
+
+.btn-danger:hover {
+  background-color: #3d355e;
+}
+
+/* === Modal Customizations === */
+.modal-content {
+  background-color: var(--highlight, #ffffff);
+  color: #121212;
+  border-radius: 12px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.modal-header, .modal-footer {
+  border-color: #e1dede;
+}
+
+body.dark .modal-content {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+}
+
+body.dark .modal-header,
+body.dark .modal-footer {
+  border-color: #333;
+}
+
+body[data-theme="sun"] .modal-content {
+  background-color: var(--highlight, #fff7e6);
+}
+body[data-theme="moon"] .modal-content {
+  background-color: var(--highlight, #f0eafc);
+}
+body[data-theme="mars"] .modal-content {
+  background-color: var(--highlight, #fdecea);
+}
+body[data-theme="venus"] .modal-content {
+  background-color: var(--highlight, #e0f2f1);
+}
+body[data-theme="mercury"] .modal-content {
+  background-color: var(--highlight, #fff3e0);
+}
+body[data-theme="jupiter"] .modal-content {
+  background-color: var(--highlight, #e3f2fd);
+}
+body[data-theme="saturn"] .modal-content {
+  background-color: var(--highlight, #eceff1);
+}
+
+/* === Quote Box === */
+.quote-box {
+  border-left: 4px solid #5e548e;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  color: #13293d;
+}
+
+/* === SVG === */
+svg polyline {
+  stroke: var(--accent);
+  transition: stroke 0.3s ease;
+}
+
+svg text {
+  fill: #bbb;
+  font-size: 1.25em;
+}
+
+/* === Fade In Animation === */
+.fade-in {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: fadeUp 0.4s ease-out forwards;
+  animation-delay: 0.1s;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Planetary Light Themes === */
+body[data-theme="sun"] {
+  --accent: #c9a227;
+  --highlight: #fff7e6;
+}
+body[data-theme="moon"] {
+  --accent: #5e548e;
+  --highlight: #f0eafc;
+}
+body[data-theme="mars"] {
+  --accent: #b71c1c;
+  --highlight: #fdecea;
+}
+body[data-theme="venus"] {
+  --accent: #388e3c;
+  --highlight: #e0f2f1;
+}
+body[data-theme="mercury"] {
+  --accent: #f57c00;
+  --highlight: #fff3e0;
+}
+body[data-theme="jupiter"] {
+  --accent: #1565c0;
+  --highlight: #e3f2fd;
+}
+body[data-theme="saturn"] {
+  --accent: #263238;
+  --highlight: #eceff1;
+}
+
+/* === Dark Mode Base === */
+body.dark {
+  background-color: #121212 !important;
+  color: #f5f5f5 !important;
+}
+
+body.dark .card,
+body.dark .container,
+body.dark .app-shell {
+  background-color: #1e1e1e;
+  border-color: #333;
+}
+
+body.dark .card-title,
+body.dark h1, 
+body.dark h2, 
+body.dark h3, 
+body.dark h4, 
+body.dark h5,
+body.dark .nav-link,
+body.dark .modal-title {
+  color: var(--accent);
+}
+
+body.dark .badge,
+body.dark .card-text,
+body.dark .card-text small,
+body.dark .lead {
+  color: #ccc;
+}
+
+body.dark .btn-outline-primary {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+body.dark .btn-outline-primary:hover {
+  background-color: var(--accent);
+  color: #121212;
+}
+
+body.dark .btn-outline-secondary {
+  border-color: #c9a227;
+  color: #c9a227;
+}
+
+body.dark .btn-outline-secondary:hover {
+  background-color: #c9a227;
+  color: #121212;
+}
+
+body.dark .nav-tabs .nav-link.active {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+}
+
+/* === Inputs & Modal === */
+body.dark .form-control,
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background-color: #2b2b2b;
+  color: #f0f0f0;
+  border-color: #444;
+}
+
+body.dark .modal-content {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+}
+body.dark .modal-header,
+body.dark .modal-footer {
+  border-color: #333;
+}
+
+/* === Planetary Dark Variants === */
+body.dark[data-theme="sun"]    { --accent: #f6c646; }
+body.dark[data-theme="moon"]   { --accent: #a89ec9; }
+body.dark[data-theme="mars"]   { --accent: #f0625d; }
+body.dark[data-theme="venus"]  { --accent: #81c784; }
+body.dark[data-theme="mercury"]{ --accent: #ff9800; }
+body.dark[data-theme="jupiter"]{ --accent: #64b5f6; }
+body.dark[data-theme="saturn"] { --accent: #90a0a9; }
+
+body.dark .text-muted {
+  color: #ccc !important;
+}
+
+.container, .app-shell {
+  padding: 1em;
+  border-radius: 12px;
+  background-color: var(--highlight, #ffffff);
+  transition: background-color 0.3s ease, border-radius 0.3s ease;
+}

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sigil Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    svg {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+<!-- Login Modal Trigger -->
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Login / Sign Up</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter email">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Password">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" onclick="login()">Login</button>
+<button type="button" class="btn btn-outline-secondary" onclick="signup()">Sign Up</button>
+</div>
+    </div>
+  </div>
+</div>
+
+<div id="app">
+ 
+
+  <div class="container my-5">
+    <header class="text-center mb-4">
+      <h1 class="display-4">Planetary Sigil Generator</h1>
+      <p class="lead">Transform words into visual talismans using ancient planetary magic squares. Choose your planet, enter a phrase, and trace its power through sacred numbers and shapes.</p>
+    </header>
+
+    <!-- Tab Navigation -->
+    <ul class="nav nav-tabs mb-4" id="sigilTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="gen-tab" data-bs-toggle="tab" data-bs-target="#gen" type="button" role="tab">🜏 Generator</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="dict-tab" data-bs-toggle="tab" data-bs-target="#dict" type="button" role="tab">🗂 Dictionary</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab">📜 About</button>
+      </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="sigilTabsContent">
+
+      <!-- Generator Tab -->
+      <div class="tab-pane fade show active" id="gen" role="tabpanel">
+        <h1 class="mb-4">🜏 Planetary Sigil Generator</h1>
+        <div class="mb-3">
+          <label for="phraseInput" class="form-label">Enter Phrase:</label>
+          <input type="text" id="phraseInput" class="form-control" />
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <label for="modeSelect" class="form-label">Mode:</label>
+            <select id="modeSelect" class="form-select">
+              <option value="phrase">Whole Phrase</option>
+              <option value="words">Each Word</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="kameaSize" class="form-label">Planetary Kamea:</label>
+            <select id="kameaSize" class="form-select">
+              <option value="sun">☉ Sun</option>
+              <option value="moon">☽ Moon</option>
+              <option value="mars">♂ Mars</option>
+              <option value="venus">♀ Venus</option>
+              <option value="mercury">☿ Mercury</option>
+              <option value="jupiter">♃ Jupiter</option>
+              <option value="saturn">♄ Saturn</option>
+            </select>
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="showGrid" />
+              <label class="form-check-label" for="showGrid">Show Grid</label>
+            </div>
+          </div>
+        </div>
+
+        <div id="resultSection" style="display: none;">
+          <h4>Number Mapping</h4>
+          <div id="result" class="mb-4"></div>
+          <div id="svgContainer" class="d-flex flex-wrap gap-4"></div>
+        </div>
+      </div>
+
+      <!-- Dictionary Tab -->
+      <div class="tab-pane fade" id="dict" role="tabpanel">
+        <h2 class="mb-3">🗂 Sigil Dictionary</h2>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <small id="cloudSyncStatus" class="text-muted"></small>
+          </div>
+          <div>
+            <span id="loginStatus" class="me-2 text-muted">Not logged in</span>
+            <button id="openLoginModalBtn" class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+              Login / Sign Up
+            </button>
+            <button id="logoutBtn" onclick="logout()" class="btn btn-sm btn-outline-secondary" style="display: none;">
+              Logout
+            </button>
+          </div>
+        </div>
+        
+        <small id="cloudSyncStatus" class="text-muted"></small>
+        <button class="btn btn-sm btn-danger mb-3" onclick="resetDictionary()">Reset Dictionary</button>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <input type="text" class="form-control" id="searchInput" placeholder="Search phrase...">
+          </div>
+          <div class="col-md-4">
+            <select class="form-select" id="planetFilter">
+              <option value="">Filter by planet</option>
+              <option value="sun">☉ Sun</option>
+              <option value="moon">☽ Moon</option>
+              <option value="mars">♂ Mars</option>
+              <option value="venus">♀ Venus</option>
+              <option value="mercury">☿ Mercury</option>
+              <option value="jupiter">♃ Jupiter</option>
+              <option value="saturn">♄ Saturn</option>
+            </select>
+          </div>
+        </div>
+        <div id="dictionaryEntries"></div>
+      </div>
+
+      <!-- About Tab -->
+      <div class="tab-pane fade" id="about" role="tabpanel">
+        <h3>📜 About This Tool</h3>
+        <p>This tool turns text into sigils using traditional <strong>kamea</strong>—magic number squares associated with the seven classical planets. These squares are part of the <em>Solomonic</em> and <em>Hermetic</em> traditions and encode planetary influence through numerical pattern.</p>
+        <div class="quote-box">
+          <p>"Each planet is a throne. Each sigil a banner. Each word a spell."</p>
+        </div>
+        <h5>How to Use</h5>
+        <ul>
+          <li><strong>Enter your phrase:</strong> A name, intention, or concept.</li>
+          <li><strong>Choose a mode:</strong> One sigil per word, or a single sigil for the whole phrase.</li>
+          <li><strong>Select a planet:</strong> Each planet carries specific magical influence.</li>
+          <li><strong>View & Save:</strong> Visualize the sigil, then save it to your Dictionary for later use.</li>
+        </ul>
+        <h5>Planetary Meanings</h5>
+        <ul>
+          <li><strong>☉ Sun:</strong> Sovereignty, vitality, clarity, success.</li>
+          <li><strong>☽ Moon:</strong> Intuition, dreams, protection, cycles.</li>
+          <li><strong>♂ Mars:</strong> Action, willpower, aggression, courage.</li>
+          <li><strong>♀ Venus:</strong> Love, beauty, connection, harmony.</li>
+          <li><strong>☿ Mercury:</strong> Communication, intellect, travel, trickery.</li>
+          <li><strong>♃ Jupiter:</strong> Expansion, luck, law, spiritual authority.</li>
+          <li><strong>♄ Saturn:</strong> Discipline, structure, endings, ancestral forces.</li>
+        </ul>
+        <p>This generator is designed to support both magical practitioners and curious creatives. No prior knowledge is required—just an intention, a phrase, and a sense of wonder.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Sigil Entry</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editIndex" />
+          <div class="mb-3">
+            <label class="form-label">Phrase</label>
+            <input type="text" id="editPhrase" class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tags</label>
+            <input type="text" id="editTags" class="form-control" placeholder="Comma-separated tags">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="saveEditBtn">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center mt-5 py-3 border-top" id="planetaryFooter">
+    <small>
+      Planetary Day: <span id="dayRuler"></span> ·
+      Planetary Hour: <span id="planetHourLabel"></span> ·
+      Local Time: <span id="localTime"></span>
+      <button id="darkModeToggle" class="btn btn-sm btn-outline-secondary float-end">
+        🌗 Dark Mode
+      </button>
+    </small>
+    <p><a href="https://jessiemarie.me">Proudly made by me, Jessie Marie</a></p>
+  </footer>
+
+  <!-- Sun Calculations for Planetary Hours -->
+  <script src="https://unpkg.com/suncalc/suncalc.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+  <!-- Modular JS Includes -->
+  <script src="js/kamea.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/generator.js"></script>
+  <script src="js/dictionary.js"></script>
+  <script src="js/planetary-time.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/init.js" defer></script>
+</body>
+
+</html>
